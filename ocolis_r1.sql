@@ -12,12 +12,18 @@ CREATE TABLE "place" (
     city text NOT NULL
 );
 
+CREATE TYPE DIMENSION AS (
+    height INT, 
+    width INT,
+    depth INT
+);
+
 CREATE TABLE "package" (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     serial_number int NOT NULL,
     content_description text NOT NULL,
     weight float NOT NULL, -- en kg, avec précision au gramme près
-    volume int NOT NULL, -- en centimètres cubes
+    volume DIMENSION NOT NULL, -- en centimètres cubes
     worth int NOT NULL, -- c'est approximatif à l'euro près
     sender_id int REFERENCES place(id),
     recipient_id int REFERENCES place(id)

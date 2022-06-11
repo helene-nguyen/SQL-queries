@@ -1,14 +1,22 @@
 BEGIN;
 
-DROP TABLE IF EXISTS "vehicle";
+INSERT INTO "place"("reference", "name", "address", "additional", "postal_code","city")
+VALUES ('user','user','user','user',68000,'user');
 
-CREATE TABLE IF NOT EXISTS "vehicle"(
-    "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "driver_name" TEXT NOT NULL,
-    "vehicle_plate" TEXT NOT NULL,
-    "starting_time" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "ending_time" TIMESTAMPTZ,
-    "package_id" INT REFERENCES package(id)
-);
+INSERT INTO "package"("serial_number", "content_description", "weight", "volume", "worth","sender_id", "recipient_id")
+VALUES 
+    ('package0','test',5.5,(10,5,5),10,1,1),
+    ('package1','test',5.5,(10,5,5),10,1,1),
+    ('package2','test',5.5,(10,5,5),10,1,1),
+    ('package3','test',5.5,(10,5,5),10,1,1),
+    ('package4','test',5.5,(10,5,5),10,1,1);
+
+INSERT INTO "vehicle"("driver_name", "vehicle_plate", "package_id")
+VALUES 
+    ('test','az',1),
+    ('test','az',2),
+    ('test','az',3),
+    ('test','az',4),
+    ('test','az',5);
 
 COMMIT;

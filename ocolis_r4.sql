@@ -1,18 +1,12 @@
 BEGIN;
 
 ALTER TABLE IF EXISTS "package"
-RENAME COLUMN "volume" TO "height";
+ADD "request_time" TIMESTAMPTZ NOT NULL DEFAULT NOW();
 
 ALTER TABLE IF EXISTS "package"
-ADD "width" INT NOT NULL DEFAULT 1;
+ADD "expedition_time" TIMESTAMPTZ;
 
 ALTER TABLE IF EXISTS "package"
-ADD "depth" INT NOT NULL DEFAULT 1;
-
-ALTER TABLE IF EXISTS "package"
-ALTER COLUMN "width" DROP DEFAULT; --/remove default for future entries
-
-ALTER TABLE IF EXISTS "package"
-ALTER COLUMN "depth" DROP DEFAULT;
+ADD "delivered_time" TIMESTAMPTZ;
 
 COMMIT;

@@ -1,12 +1,14 @@
 BEGIN;
 
-ALTER TABLE IF EXISTS "package"
-ADD "request_time" TIMESTAMPTZ NOT NULL DEFAULT NOW();
+DROP TABLE IF EXISTS "vehicle";
 
-ALTER TABLE IF EXISTS "package"
-ADD "expedition_time" TIMESTAMPTZ;
-
-ALTER TABLE IF EXISTS "package"
-ADD "delivered_time" TIMESTAMPTZ;
+CREATE TABLE IF NOT EXISTS "vehicle"(
+    "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "driver_name" TEXT NOT NULL,
+    "vehicle_plate" TEXT NOT NULL,
+    "starting_time" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "ending_time" TIMESTAMPTZ,
+    "package_id" INT REFERENCES package(id)
+);
 
 COMMIT;
