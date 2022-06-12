@@ -232,13 +232,13 @@ Uniquement que des lettres
 Côté droit : Pas de 'SS'
 Uniquement que des lettres
 
-Au milieu : Uniquement des chiffres
+Au milieu : Uniquement des chiffres de 001 à 999
 
 ```
-/^((?!WW|SS|[OUI])[A-Z]){2}-(\d{3})-((?!WW|SS|[OUI])[A-Z]){2}$/gm
+/^(?#number-plate-FR)((?!WW|SS|[OUI])[A-Z]){2}-(\d{2}[1-9]|9\d{2})-((?!WW|SS|[OUI])[A-Z]){2}$/gm
 ```
 
-![regex](./images/regex.jpg)
+![regex](./images/regex.png)
 
 ### Code postal
 
