@@ -12,10 +12,13 @@ CREATE TABLE "place" (
     city text NOT NULL
 );
 
+-- il faut gérer les cas qui peuvent poser problème (des valeurs négatives dans les colonnes concernées par les domaines créés)
+CREATE DOMAIN POSINT AS INT CHECK (VALUE>0);
+
 CREATE TYPE DIMENSION AS (
-    height INT, 
-    width INT,
-    depth INT
+    height POSINT, 
+    width POSINT,
+    depth POSINT
 );
 
 CREATE TABLE "package" (

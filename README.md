@@ -184,3 +184,66 @@ Contraintes de clés étrangères :
 Référencé par :
     TABLE "vehicle" CONSTRAINT "vehicle_package_id_fkey" FOREIGN KEY (package_id) REFERENCES package(id)
 ```
+
+
+```sh
+ocolis2=# \d package
+                                          Table « public.package »       Colonne       |           Type
+  | Collationnement | NULL-able |          Par défaut
+---------------------+--------------------------+-----------------+-----------+------------------------------
+ id                  | integer                  |                 | not null  | generated always as identity
+ serial_number       | text                     |                 | not null  |
+ content_description | text                     |                 | not null  |
+ weight              | posfloat                 |                 | not null  |
+ volume              | dimension                |                 | not null  |
+ worth               | integer                  |                 | not null  |
+ sender_id           | integer                  |                 |           |
+ recipient_id        | integer                  |                 |           |
+ request_time        | timestamp with time zone |                 | not null  | now()
+ delivered_time      | timestamp with time zone |                 |           |
+Index :
+    "package_pkey" PRIMARY KEY, btree (id)
+    "package_serial_number_key" UNIQUE CONSTRAINT, btree (serial_number)
+Contraintes de clés étrangères :
+    "package_recipient_id_fkey" FOREIGN KEY (recipient_id) REFERENCES place(id)
+    "package_sender_id_fkey" FOREIGN KEY (sender_id) REFERENCES place(id)
+Référencé par :
+    TABLE "vehicle" CONSTRAINT "vehicle_package_id_fkey" FOREIGN KEY (package_id) REFERENCES package(id)
+```
+
+## Regex
+
+On veut imposer un type ayant une contrainte pour la plaque d'immatriculation du véhicule du transporteur et le code postal français.
+
+### Plaques françaises
+
+- Composés de 7 caractères alpha numériques
+- Exclure les lettres O, I et U
+- Composés de 2 lettres, tiret, 3 chiffres, tiret, 2 lettres
+
+```
+XX - 000 - XX
+```
+
+Côté gauche : Pas de 'SS' ou 'WW'
+Uniquement que des lettres
+
+
+Côté droit : Pas de 'SS'
+Uniquement que des lettres
+
+Au milieu : Uniquement des chiffres
+
+```
+/^((?!WW|SS|[OUI])[A-Z]){2}-(\d{3})-((?!WW|SS|[OUI])[A-Z]){2}$/gm
+```
+
+![regex](./images/regex.jpg)
+
+### Code postal
+
+- Composé de 5 chiffres
+- Les 2 premiers vont de 01 à 97 (numéro du département)
+- Les 3 suivants vont de 000 à 999
+
+![regex](./images/regex1.jpg)
